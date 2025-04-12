@@ -1,14 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-
 const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
   },
-  userName: { // Changed from name to userName
+  fullName:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  userName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -20,20 +22,16 @@ const User = sequelize.define('User', {
       isEmail: true,
     },
   },
-   password: { // Added password field
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   dob: {
     type: DataTypes.DATE,
   },
-   profile_picture: { // Added profile_picture field
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  niveau_id: {
+  profile_picture: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  niveauxSpecialiteId: {
     type: DataTypes.INTEGER,
-    allowNull: false, // Assuming every user belongs to a level
+    allowNull: false,
   },
   createdAt: {
     type: DataTypes.DATE,

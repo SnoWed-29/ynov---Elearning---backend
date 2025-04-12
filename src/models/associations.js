@@ -18,8 +18,13 @@ const QuizQuestion = require('./QuizQuestions');
 const UserQuiz = require('./UserQuiz');
 
 // Define Associations (Relationships)
-User.belongsTo(Niveau, { foreignKey: 'niveau_id', as: 'niveau' });
-Niveau.hasMany(User, { foreignKey: 'niveau_id', as: 'users' });
+// Remove the old association
+// User.belongsTo(Niveau, { foreignKey: 'niveau_id', as: 'niveau' });
+// Niveau.hasMany(User, { foreignKey: 'niveau_id', as: 'users' });
+
+
+User.belongsTo(NiveauxSpecialite, { foreignKey: 'niveauxSpecialiteId', as: 'niveauxSpecialite' });
+NiveauxSpecialite.hasMany(User, { foreignKey: 'niveauxSpecialiteId', as: 'users' });
 
 Niveau.belongsToMany(Specialite, { through: NiveauxSpecialite, as: 'specialites', foreignKey: 'niveauId' });
 Specialite.belongsToMany(Niveau, { through: NiveauxSpecialite, as: 'niveaux', foreignKey: 'specialiteId' });
