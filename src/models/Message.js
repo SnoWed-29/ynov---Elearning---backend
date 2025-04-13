@@ -13,7 +13,7 @@ const Messages = sequelize.define('Messages', {
       allowNull: false,
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: User,

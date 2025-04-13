@@ -5,6 +5,7 @@ const app = express();
 const models = require('./models'); 
 const userRoutes = require('./routes/userRoutes'); 
 const levelRoutes = require('./routes/levelRoutes');
+const multer = require('multer'); // Import multer
 
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
@@ -16,8 +17,13 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 }));
 
+app.use(express.static('public')); // Serve static files (for the HTML form)
+
+// Configure multer for handling FormData
+const upload = multer(); // Create a multer instance
+
 // Use the user routes
-app.use('/api', userRoutes);
+app.use('/api', upload.none(), userRoutes); // Apply multer middleware
 app.use('/api', levelRoutes); // Import and use the specialite routes
 
 // Function to sync the database
