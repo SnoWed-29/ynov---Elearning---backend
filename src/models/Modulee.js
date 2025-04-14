@@ -1,7 +1,7 @@
 // src/models/Module.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
+const Niveau = require('./Niveau'); // Import the Niveau model
 
 const Module = sequelize.define('Module', {
     id: {
@@ -20,6 +20,18 @@ const Module = sequelize.define('Module', {
     estimatedTime: { // Added estimatedTime field
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    niveauId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Niveau,
+        key: 'id',
+      },
+    },
+    isGlobal:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,

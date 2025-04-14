@@ -2,7 +2,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  'EduLearn3', // Replace with your database name
+  'EduLearn4', // Replace with your database name
   'root',      // Replace with your database username
   '',      // Replace with your database password
   {

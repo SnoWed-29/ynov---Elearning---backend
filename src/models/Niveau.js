@@ -9,12 +9,12 @@ const Niveau = sequelize.define('Niveau', {
       primaryKey: true,
       autoIncrement: true,
     },
-    levelName: { // Changed from name to levelName
+    levelName: { 
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    description: { // Added description field
+    description: { 
       type: DataTypes.TEXT,
       allowNull: true,
     },

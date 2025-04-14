@@ -5,6 +5,7 @@ const app = express();
 const models = require('./models'); 
 const userRoutes = require('./routes/userRoutes'); 
 const levelRoutes = require('./routes/levelRoutes');
+const courseRoutes = require('./routes/courseRoutes'); // Import the course routes
 const multer = require('multer'); // Import multer
 
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ const upload = multer(); // Create a multer instance
 // Use the user routes
 app.use('/api', upload.none(), userRoutes); // Apply multer middleware
 app.use('/api', levelRoutes); // Import and use the specialite routes
+app.use('/api', courseRoutes); // Import and use the specialite routes
 
 // Function to sync the database
 async function syncDatabase() {

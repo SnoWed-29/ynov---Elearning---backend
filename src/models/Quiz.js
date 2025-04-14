@@ -1,7 +1,7 @@
 // src/models/Quiz.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Module = require('./Module'); // Import the Module model
+const Module = require('./Modulee'); // Import the Module model
 const Quiz = sequelize.define('Quiz', {
     id: {
       type: DataTypes.INTEGER,

@@ -1,7 +1,7 @@
 // src/models/Certificate.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Module = require('./Module');
+const Module = require('./Modulee');
 const User = require('./User');
 
 const Certificate = sequelize.define('Certificate', {

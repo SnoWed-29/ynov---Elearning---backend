@@ -4,7 +4,7 @@ const Niveau = require('./Niveau');
 const NiveauxSpecialite = require('./NiveauxSpecialite');
 const Specialite = require('./Specialite');
 const SpecialModule = require('./SpeciaModule');
-const Module = require('./Module');
+const Module = require('./Modulee');
 const UserModule = require('./UserModule');
 const Chapter = require('./Chapter');
 const Materials = require('./Material');
@@ -17,10 +17,26 @@ const UserChat = require('./UserChat');
 const QuizQuestion = require('./QuizQuestions');
 const UserQuiz = require('./UserQuiz');
 
-// Define Associations (Relationships)
-// Remove the old association
-// User.belongsTo(Niveau, { foreignKey: 'niveau_id', as: 'niveau' });
-// Niveau.hasMany(User, { foreignKey: 'niveau_id', as: 'users' });
+NiveauxSpecialite.belongsTo(Niveau, {
+    foreignKey: 'niveauId',
+    as: 'niveau' // Alias used in your controller
+});
+
+Niveau.hasMany(NiveauxSpecialite, {
+    foreignKey: 'niveauId',
+    as: 'niveauxSpecialites' // Optional alias
+});
+
+NiveauxSpecialite.belongsTo(Specialite, {
+    foreignKey: 'specialiteId',
+    as: 'specialite' // Alias for Specialite
+});
+
+Specialite.hasMany(NiveauxSpecialite, {
+    foreignKey: 'specialiteId',
+    as: 'niveauxSpecialites' // Optional alias
+});
+
 
 
 User.belongsTo(NiveauxSpecialite, { foreignKey: 'niveauxSpecialiteId', as: 'niveauxSpecialite' });
@@ -101,7 +117,8 @@ Chat.belongsToMany(User, {
 
 Chat.hasMany(Messages, { foreignKey: 'chatId', as: 'messages' });
 Messages.belongsTo(Chat, { foreignKey: 'chatId', as: 'chat' });
+
 User.hasMany(Messages, { foreignKey: 'userId', as: 'messages' });
 Messages.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-module.exports = () => {};
+Niveau.hasMany
