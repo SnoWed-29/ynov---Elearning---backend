@@ -1,10 +1,11 @@
 const niveau = require('../models/Niveau');
 const modulee = require('../models/Modulee');
 const niveauxSpecialite = require('../models/NiveauxSpecialite');
-const specialiteModule = require('../models/SpeciaModule'); // Assuming this model exists
+const specialiteModule = require('../models/SpeciaModule'); 
 const user = require('../models/User');
-const { Op, Sequelize } = require('sequelize'); // Import Op and Sequelize
-const sequelize = require('../config/db'); // Adjust the path to your Sequelize instance
+const { Op } = require('sequelize')
+const sequelize = require('../config/db'); // Adjust the path to your database configuration 
+const chapter = require('../models/Chapter'); // Adjust the path to your Chapters model
 const getUsersModulesList = async (req, res) => {
     try {
         const { userId } = req.body;
@@ -79,4 +80,89 @@ const getUsersModulesList = async (req, res) => {
     }
 };
 
-module.exports = { getUsersModulesList };
+
+const getModuleById = async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+
+        const moduleData = await modulee.findOne({
+            where: { id: moduleId },
+            include: [
+                {
+                    model: chapter, // Adjust the path to your Chapters model
+                    as: 'chapters', // Alias defined in the relationship
+                    attributes: ['id', 'chapterName', 'description', 'order'] // Specify the fields you want to include
+                }
+            ]
+        });
+
+        if (!moduleData) {
+            return res.status(404).json({ message: 'Module not found' });
+        }
+
+        return res.status(200).json(moduleData); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+const getChapter =  async (req, res) => {
+    const { moduleId, chapterId } = req.params;
+  
+    try {
+      // Fetch the module by ID
+      const  course = await modulee.findByPk(moduleId, {
+        include: [
+          {
+            model: chapter,
+            as: 'chapters',
+            where: { id: chapterId },
+          },
+        ],
+      });
+  
+      if (!course || !course.chapters || course.chapters.length === 0) {
+        return res.status(404).json({ message: 'Chapter not found' });
+      }
+  
+      // Return the specific chapter
+      res.json(course.chapters[0]);
+    } catch (error) {
+      console.error('Error fetching chapter:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+const getChapterById = async(req,res) => {
+    const {chapterId, moduleId} = req.params;
+
+    try{
+        const chapterData = await chapter.findOne({
+            where: { id: chapterId },
+            include: [
+                {
+                  model: modulee,
+                  as: 'module',
+                  where: { id: moduleId },
+                  attributes: ['id', 'moduleName', 'description'] // Specify the fields to include
+                },
+              ],
+        });
+
+        if (!chapterData) {
+            return res.status(404).json({ message: 'Chapter not found' });
+        }
+
+        return res.status(200).json(chapterData);
+    }catch(error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+module.exports = { 
+    getUsersModulesList, 
+    getModuleById, 
+    getChapter,
+    getChapterById 
+};

@@ -1,7 +1,10 @@
 const express = require('express');
-const { getUsersModulesList } = require('../controllers/courseController');
+const { getUsersModulesList, getModuleById, getChapter, getChapterById } = require('../controllers/courseController');
+const sequelize = require('../config/db'); 
 const router = express.Router();
-
+const restrictModuleAccess = require('../middlewares/restrictModuleAccess'); 
 router.post('/userModulesList', getUsersModulesList);
-
+router.post('/modules/:moduleId', restrictModuleAccess, getModuleById);
+router.post('/modules/:moduleId/chapters/:chapterId',restrictModuleAccess, getChapter);
+router.post('/chapters/:chapterId/:moduleId',restrictModuleAccess, getChapterById);
 module.exports = router;
